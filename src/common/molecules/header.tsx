@@ -17,7 +17,7 @@ const Header = () => {
                     Spotify
                 </Typography>
                 <IconButton>
-                    <AccountCircle />
+                    <AccountCircle className={classes.iconColor} />
                 </IconButton>
                 <Typography variant="h6">MiiZZo</Typography>
             </Toolbar>

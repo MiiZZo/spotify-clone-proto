@@ -11,5 +11,8 @@ export const useStyles = makeStyles((theme) =>
     title: {
       flexGrow: 1,
     },
+    iconColor: {
+      color: theme.palette.secondary.main
+    }
   }),
 );
