@@ -1,8 +1,11 @@
 import React from "react";
+import Header from "./common/molecules/header";
 
 const App = () => {
     return (
-        <div>hello</div>
+        <>
+            <Header />
+        </>
     );
 }
 
