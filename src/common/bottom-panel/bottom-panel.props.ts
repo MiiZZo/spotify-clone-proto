@@ -1,0 +1,10 @@
+interface TrackDTO {
+    imgUrl?: string;
+    title: string;
+    authorName: string;
+    audio: string;
+}
+
+export interface BottomPanelProps {
+    track: TrackDTO
+}
