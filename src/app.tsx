@@ -7,8 +7,8 @@ import audio from "./track.mp3";
 const App = () => {
     return (
         <>
-            <Player audio={audio} />
             <Header />
+            <Player audio={audio} />
         </>
     );
 }
