@@ -8,11 +8,11 @@ export const useStyles = makeStyles((theme) =>
         color: theme.palette.secondary.main
     },
     playerWrapper: {
-        maxWidth: "1000px",
         display: "flex",
         alignItems: "center",
-        flexDirection: "column",
-        margin: "0 auto"
+        justifyContent: "center",
+        width: "100%",
+        padding: "20px"
     },
     controllsWrapper: {
         display: "flex"
@@ -24,6 +24,27 @@ export const useStyles = makeStyles((theme) =>
     },
     iconButton: {
       color: theme.palette.secondary.main
+    },
+    volumeSlider: {
+      width: "100px",
+      color: theme.palette.secondary.main
+    },
+    trackImage: {
+      width: 50,
+      height: 50,
+      background: theme.palette.primary.main,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      color: theme.palette.secondary.main,
+      borderRadius: 5
+    },
+    trackTitle: {
+        color: theme.palette.secondary.main
+    },
+    trackAuthor: {
+        color: theme.palette.secondary.dark,
+        fontSize: theme.typography.fontSize
     }
   }),
 );

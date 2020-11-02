@@ -1,3 +1,8 @@
+import { TrackDTO } from "../../typings/track.dto";
+
 export interface PlayerProps {
-    audio: string;
+    track: TrackDTO;
+    onChangeCurrentTrack: (value: number) => void;
+    handleChooseNextTrack: () => void;
+    handleChoosePrevTrack: () => void;
 }
