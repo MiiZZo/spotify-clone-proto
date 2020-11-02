@@ -5,19 +5,25 @@ export const useStyles = makeStyles((theme) =>
     sliderWrapper: {
         display: "flex",
         alignItems: "center",
+        color: theme.palette.secondary.main
     },
     playerWrapper: {
         maxWidth: "1000px",
         display: "flex",
         alignItems: "center",
-        flexDirection: "column"
+        flexDirection: "column",
+        margin: "0 auto"
     },
     controllsWrapper: {
         display: "flex"
     },
     slider: {
         width: "600px",
-        margin: "0 15px"
+        margin: "0 15px",
+        color: theme.palette.secondary.main
+    },
+    iconButton: {
+      color: theme.palette.secondary.main
     }
   }),
 );

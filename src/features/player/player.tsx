@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, IconButton, Slider, Typography } from "@material-ui/core";
-import { PauseOutlined, PlayArrowOutlined } from "@material-ui/icons";
+import { PauseOutlined, PlayArrowOutlined, SkipNext, SkipPrevious } from "@material-ui/icons";
 import { PlayerProps } from "./player.props";
 import { formatTime } from "./format-time";
 import { useStyles } from "./player.styles";
@@ -29,7 +29,6 @@ const Player = ({ audio }: PlayerProps) => {
     }
 
     const handleSubmitCurrentTime = () => {
-        console.log("UP")
         setSliderIsDragged(false);
         track.currentTime = currentTime;
     }
@@ -66,17 +65,22 @@ const Player = ({ audio }: PlayerProps) => {
 
     return (
         <Box className={classes.playerWrapper}>
-            
             <Box className={classes.controllsWrapper}>
+                <IconButton className={classes.iconButton}>
+                    <SkipPrevious />
+                </IconButton>
                 {!isPlaying ? (
-                    <IconButton onClick={handleToggleIsPlaying}>
+                    <IconButton onClick={handleToggleIsPlaying} className={classes.iconButton}>
                         <PlayArrowOutlined />
                     </IconButton>
                 ): (
-                    <IconButton onClick={handleToggleIsPlaying}>
+                    <IconButton onClick={handleToggleIsPlaying} className={classes.iconButton}>
                         <PauseOutlined />
                     </IconButton>
                 )}
+                <IconButton className={classes.iconButton}>
+                    <SkipNext />
+                </IconButton>
             </Box>
             <Box className={classes.sliderWrapper}>
                 <Typography>{formatTime(currentTime)}</Typography>
