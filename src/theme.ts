@@ -14,4 +14,18 @@ export const theme = createMuiTheme({
       dark: "#AFAFAF"
     },
   },
+  overrides: {
+    MuiCssBaseline: {
+      '@global': {
+        html: {
+          width: "100%",
+          height: "100%"
+        },
+        body: {
+          width: "100%",
+          height: "100%"
+        }
+      },
+    },
+  },
 });
