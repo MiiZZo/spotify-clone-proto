@@ -5,24 +5,17 @@ import Player from "../../features/player/player";
 import { useStyles } from "./bottom-panel.styles";
 import { BottomPanelProps } from "./bottom-panel.props";
 
-const BottomPanel = ({ track }: BottomPanelProps) => {
+const BottomPanel = ({ track, onChangeCurrentTrack, handleChooseNextTrack, handleChoosePrevTrack }: BottomPanelProps) => {
     const classes = useStyles();
 
     return (
         <Box className={classes.bottomPanel}>
-            <Box display="flex">
-                {!track.imgUrl && (
-                    <Box className={classes.trackImage}>
-                        <MusicNote />
-                    </Box>
-                )}
-                <Box marginLeft="5px">
-                    <Typography className={classes.trackTitle}>{track.title}</Typography>
-                    <Typography className={classes.trackAuthor}>{track.authorName}</Typography>
-                </Box>
-            </Box>
-            <Player audio={track.audio} />
-            <Box></Box>
+            <Player 
+                track={track} 
+                onChangeCurrentTrack={onChangeCurrentTrack} 
+                handleChooseNextTrack={handleChooseNextTrack} 
+                handleChoosePrevTrack={handleChoosePrevTrack} 
+            />
         </Box>
     );
 }
