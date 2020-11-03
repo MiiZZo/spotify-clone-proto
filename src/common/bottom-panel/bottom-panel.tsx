@@ -5,14 +5,13 @@ import Player from "../../features/player/player";
 import { useStyles } from "./bottom-panel.styles";
 import { BottomPanelProps } from "./bottom-panel.props";
 
-const BottomPanel = ({ track, onChangeCurrentTrack, handleChooseNextTrack, handleChoosePrevTrack }: BottomPanelProps) => {
+const BottomPanel = ({ track, handleChooseNextTrack, handleChoosePrevTrack }: BottomPanelProps) => {
     const classes = useStyles();
 
     return (
         <Box className={classes.bottomPanel}>
             <Player 
                 track={track} 
-                onChangeCurrentTrack={onChangeCurrentTrack} 
                 handleChooseNextTrack={handleChooseNextTrack} 
                 handleChoosePrevTrack={handleChoosePrevTrack} 
             />

@@ -34,10 +34,6 @@ const App = () => {
     ];
 
     const [currentTrack, setCurrentTrack] = useState(0);
-
-    const handleChangeCurrentTrack =  (value: number) => {
-        setCurrentTrack(2);
-    }
     
     const handleChoosePrevTrack = () => {
         if (currentTrack === 0) {
@@ -62,7 +58,6 @@ const App = () => {
             <BottomPanel
                 handleChoosePrevTrack={handleChoosePrevTrack}
                 handleChooseNextTrack={handleChooseNextTrack}
-                onChangeCurrentTrack={handleChangeCurrentTrack}
                 track={playlist[currentTrack]} 
             />
         </Box>
