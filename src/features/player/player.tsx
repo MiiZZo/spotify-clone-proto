@@ -5,29 +5,35 @@ import { PlayerProps } from "./player.props";
 import { formatTime } from "./format-time";
 import { useStyles } from "./player.styles";
 
-const Player = ({ track: audio, onChangeCurrentTrack, handleChooseNextTrack, handleChoosePrevTrack }: PlayerProps) => {
+const Player = ({ track: audio, handleChooseNextTrack, handleChoosePrevTrack }: PlayerProps) => {
     const classes = useStyles();
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [track, setTrack] = useState(new Audio(audio.audio));
-    const [currentTime, setCurrentTime] = useState(track.volume);
+    const [currentTime, setCurrentTime] = useState(0);
     const [trackVolume, setTrackVolume] = useState(1);
     const [isMuted, setIsMuted] = useState(false);
     const [trackDuration, setTrackDuration] = useState(0);
     const [sliderIsDragged, setSliderIsDragged] = useState(false);
-    const [trackInterval, setTrackInterval] = useState<NodeJS.Timeout | null>(null)
+    const [trackInterval, setTrackInterval] = useState<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         setTrack(new Audio(audio.audio));
     }, [audio.audio]);
 
+    useEffect(() => {
+        track.onended = () => {   
+            onHandleChooseNextTrack();
+        }
+    }, [track, trackInterval]);
+
     const resetTrackData = () => {
         if (trackInterval) {
             clearInterval(trackInterval);
+            setTrackInterval(null);
         }
         track.pause();
         setCurrentTime(0);
-        onChangeCurrentTrack(1);
     }
 
     const onHandleChooseNextTrack = () => {
@@ -52,7 +58,7 @@ const Player = ({ track: audio, onChangeCurrentTrack, handleChooseNextTrack, han
         setSliderIsDragged(true);
     }
 
-    const handleChangeCurrentTime = (event: React.ChangeEvent<{}>, value: number | number[]) => {
+    const handleChangeCurrentTime = (e: React.ChangeEvent<{}>, value: number | number[]) => {
         if (typeof value === "number") {
             setCurrentTime(value);
         }
