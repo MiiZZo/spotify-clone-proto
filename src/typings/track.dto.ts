@@ -1,6 +1,9 @@
 export interface TrackDTO {
+    id: number;
     imgUrl?: string;
     title: string;
-    authorName: string;
+    author: string;
     audio: string;
+    duration: number;
+    createdAt: Date;
 }
