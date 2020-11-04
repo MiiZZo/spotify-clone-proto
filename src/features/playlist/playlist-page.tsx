@@ -14,7 +14,7 @@ import {
   Typography,
   withStyles,
 } from "@material-ui/core";
-import { Favorite, MusicNote, DateRange, WatchLater } from "@material-ui/icons";
+import { Favorite, DateRange, WatchLater, QueueMusic } from "@material-ui/icons";
 import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
 import { PlayerStoreContext } from "../player/player-store.context";
@@ -50,7 +50,7 @@ const PlaylistPage = observer(() => {
             alignItems="center"
             justifyContent="center"
           >
-            <MusicNote
+            <QueueMusic 
               color="secondary"
               className={classes.playlistImageIcon}
             />

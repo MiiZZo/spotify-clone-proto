@@ -17,8 +17,7 @@ export const useStyles = makeStyles((theme) =>
         fontSize: 16
     },
     playlistImageIcon: {
-        width: "50px",
-        height: "50px",
+        fontSize: "60px"
     },
     playButton: {
       width: "115px"
