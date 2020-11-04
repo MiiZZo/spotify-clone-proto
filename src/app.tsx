@@ -9,15 +9,36 @@ import { PlayerStoreContext } from "./features/player/player-store.context";
 import PlaylistPage from "./features/playlist/playlist-page";
 import { PlaylistStore } from "./features/playlist/playlist.store";
 import { PlaylistStoreContext } from "./features/playlist/playlist-store.context";
+import { TrackStore } from "./features/track/track.store";
+import { tracks } from "./tracks.data";
+import NavMenu from "./common/nav-menu/nav-menu";
 
 const App = observer(() => {
   const [playlistStore] = useState(() => new PlaylistStore());
+  const [trackStore] = useState(() => new TrackStore(tracks))
   const [playerStore] = useState(
     () =>
       new PlayerStore(
-        playlistStore.playlists[0].tracks.map((track) => track.audio)
+        trackStore.tracks.map((track) => track.id),
+        trackStore
       )
   );
+    
+  playlistStore.setPlaylists([
+    {
+      id: 1,
+      title: "Playlist #1",
+      tracks: tracks.slice(0, 7),
+      description: "Playlist desc!",
+    },
+    {
+      id: 2,
+      title: "Playlist #2",
+      tracks: tracks.slice(7, 11),
+      description: "Playlist desc!!"
+    }
+  ]);
+
   const classes = useStyles();
 
   return (
@@ -25,7 +46,10 @@ const App = observer(() => {
       <PlayerStoreContext.Provider value={playerStore}>
         <Box height="100%" className={classes.root}>
           <Header />
-          <PlaylistPage />
+          <Box display="flex">
+            <NavMenu />
+            <PlaylistPage />
+          </Box>
           <BottomPanel />
         </Box>
       </PlayerStoreContext.Provider>
