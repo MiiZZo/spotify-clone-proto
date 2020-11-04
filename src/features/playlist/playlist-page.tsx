@@ -15,7 +15,9 @@ import {
   withStyles,
 } from "@material-ui/core";
 import { Favorite, MusicNote, DateRange, WatchLater } from "@material-ui/icons";
+import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
+import { PlayerStoreContext } from "../player/player-store.context";
 import { useStyles } from "./playlist-page.styles";
 import { PlaylistStoreContext } from "./playlist-store.context";
 
@@ -27,14 +29,15 @@ const StyledTableCell = withStyles((theme) =>
     },
     body: {
       fontSize: 14,
-      color: theme.palette.common.white
-    }
+      color: theme.palette.common.white,
+    },
   })
 )(TableCell);
 
-const PlaylistPage = () => {
+const PlaylistPage = observer(() => {
   const classes = useStyles();
-  
+  const playerStore = useContext(PlayerStoreContext)!;
+
   const playlistStore = useContext(PlaylistStoreContext)!;
 
   return (
@@ -54,7 +57,9 @@ const PlaylistPage = () => {
           </Box>
         )}
         <Box marginLeft="15px" marginTop="auto" marginBottom="5px">
-          <Typography className={classes.text} color="secondary">Playlist</Typography>
+          <Typography className={classes.text} color="secondary">
+            Playlist
+          </Typography>
           <Typography color="secondary" className={classes.playlistTitle}>
             My Playlist #1
           </Typography>
@@ -89,21 +94,31 @@ const PlaylistPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {playlistStore.playlists[0].tracks.map(({ author, createdAt, duration, id, title }) => (
-              <TableRow key={id}>
-                <StyledTableCell component="th" scope="row">
-                  {title}
-                </StyledTableCell>
-                <StyledTableCell align="right">{author}</StyledTableCell>
-                <StyledTableCell align="right">{createdAt}</StyledTableCell>
-                <StyledTableCell align="right">{duration}</StyledTableCell>
-              </TableRow>
-            ))}
+            {playlistStore.playlists[0].tracks.map(
+              ({ author, createdAt, duration, id, title }, i) => (
+                <TableRow
+                  onClick={() => playerStore.setCurrentTrack(i)}
+                  key={id}
+                  className={
+                    playerStore.currentTrackIndex === i
+                      ? `${classes.currentTrack} ${classes.tableRow}`
+                      : classes.tableRow
+                  }
+                >
+                  <StyledTableCell component="th" scope="row">
+                    {title}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">{author}</StyledTableCell>
+                  <StyledTableCell align="right">{createdAt}</StyledTableCell>
+                  <StyledTableCell align="right">{duration}</StyledTableCell>
+                </TableRow>
+              )
+            )}
           </TableBody>
         </Table>
       </TableContainer>
     </Container>
   );
-};
+});
 
 export default PlaylistPage;

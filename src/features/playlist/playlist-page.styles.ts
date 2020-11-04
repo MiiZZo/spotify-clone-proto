@@ -32,6 +32,12 @@ export const useStyles = makeStyles((theme) =>
     },
     text: {
       fontWeight: theme.typography.fontWeightLight
+    },
+    currentTrack: {
+      background: `rgba(255, 255, 255, 0.1)`
+    },
+    tableRow: {
+      cursor: "pointer"
     }
   })
 );

@@ -30,8 +30,10 @@ export class PlayerStore {
         this.audio.pause();
         this.audio = new Audio(this.trackList[this.currentTrackIndex]);
 
-        this.audio.oncanplay = () => {
-            this.playAudio();
+        if (this.isPlaying) {
+            this.audio.oncanplay = () => {
+                this.playAudio();
+            }
         }
 
         this.audio.onloadedmetadata = () => {
@@ -54,6 +56,11 @@ export class PlayerStore {
             this.currentTrackIndex = this.currentTrackIndex - 1;
         }
 
+        this.updateAudio();
+    }
+
+    setCurrentTrack(index: number) {
+        this.currentTrackIndex = index;
         this.updateAudio();
     }
 
