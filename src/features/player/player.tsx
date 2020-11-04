@@ -7,7 +7,7 @@ import {
   SkipNext,
   SkipPrevious,
   VolumeOffRounded,
-  VolumeUpRounded,
+  VolumeUpRounded
 } from "@material-ui/icons";
 import { formatTime } from "./format-time";
 import { useStyles } from "./player.styles";
@@ -20,20 +20,16 @@ const Player = observer(() => {
 
   const [currentTime, setCurrentTime] = useState(0);
   const [sliderIsDragged, setSliderIsDragged] = useState(false);
-  const [trackInterval, setTrackInterval] = useState<NodeJS.Timeout | null>(
-    null
-  );
-
+  
   useEffect(() => {
     playerStore.audio.onended = () => {
       onHandleChooseNextTrack();
     };
-  }, [playerStore.audio, trackInterval]);
+  }, [playerStore.audio, playerStore.trackIntervalId]);
 
   const resetTrackData = () => {
-    if (trackInterval) {
-      clearInterval(trackInterval);
-      setTrackInterval(null);
+    if (playerStore.trackIntervalId) {
+      playerStore.clearTrackInterval();
     }
     setCurrentTime(0);
     playerStore.changeCurrentTrackTime(0);
@@ -95,19 +91,19 @@ const Player = observer(() => {
   useEffect(() => {
     if (playerStore.isPlaying) {
       if (!sliderIsDragged) {
-        setTrackInterval(
+        playerStore.setTrackInterval(
           setInterval(() => {
             setCurrentTime(playerStore.audio.currentTime);
           }, 100)
         );
       } else {
-        if (trackInterval) {
-          clearInterval(trackInterval);
+          if (playerStore.trackIntervalId) {
+          playerStore.clearTrackInterval();
         }
       }
     } else {
-      if (trackInterval) {
-        clearInterval(trackInterval);
+      if (playerStore.trackIntervalId) {
+        playerStore.clearTrackInterval();
       }
     }
   }, [playerStore.isPlaying, sliderIsDragged, playerStore.audio]);

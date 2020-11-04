@@ -8,8 +8,8 @@ export class PlayerStore {
     trackList: TrackDTO["audio"][];
     isPlaying = false;
     isMuted = false;
-    currentTrackTime = 0;
     trackVolume = 1;
+    trackIntervalId: NodeJS.Timeout | null = null;
 
     constructor(trackList: TrackDTO["audio"][]) {
         this.audio = new Audio(trackList[0]);
@@ -61,6 +61,11 @@ export class PlayerStore {
 
     setCurrentTrack(index: number) {
         this.currentTrackIndex = index;
+        if (this.trackIntervalId) {
+            clearInterval(this.trackIntervalId);
+            this.trackIntervalId = null;
+        }
+
         this.updateAudio();
     }
 
@@ -90,7 +95,17 @@ export class PlayerStore {
     }
 
     changeCurrentTrackTime(value: number) {
-        this.currentTrackTime = value;
         this.audio.currentTime = value;
+    }
+
+    setTrackInterval(interval: NodeJS.Timeout) {
+        this.trackIntervalId = interval;
+    }
+
+    clearTrackInterval() {
+        if (this.trackIntervalId) {
+            clearInterval(this.trackIntervalId);
+            this.trackIntervalId = null;
+        }
     }
 }
