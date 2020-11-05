@@ -6,12 +6,22 @@ import BottomPanel from "./common/bottom-panel/bottom-panel";
 import Header from "./common/molecules/header";
 import { PlayerStore } from "./features/player/player.store";
 import { PlayerStoreContext } from "./features/player/player-store.context";
-import PlaylistPage from "./features/playlist/playlist-page";
 import { PlaylistStore } from "./features/playlist/playlist.store";
 import { PlaylistStoreContext } from "./features/playlist/playlist-store.context";
 import { TrackStore } from "./features/track/track.store";
 import { tracks } from "./tracks.data";
 import NavMenu from "./common/nav-menu/nav-menu";
+import { TrackStoreContext } from "./features/track/track-store.context";
+import { routes } from "./routes";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+
+const Routes = routes.map(({ name, ...route }) => (
+  <Route 
+    key={name}
+    {...route}
+    exact={true}
+  />
+));
 
 const App = observer(() => {
   const [playlistStore] = useState(() => new PlaylistStore());
@@ -23,7 +33,7 @@ const App = observer(() => {
         trackStore
       )
   );
-    
+
   playlistStore.setPlaylists([
     {
       id: 1,
@@ -42,18 +52,24 @@ const App = observer(() => {
   const classes = useStyles();
 
   return (
-    <PlaylistStoreContext.Provider value={playlistStore}>
-      <PlayerStoreContext.Provider value={playerStore}>
-        <Box height="100%" className={classes.root}>
-          <Header />
-          <Box display="flex">
-            <NavMenu />
-            <PlaylistPage />
-          </Box>
-          <BottomPanel />
-        </Box>
-      </PlayerStoreContext.Provider>
-    </PlaylistStoreContext.Provider>
+    <TrackStoreContext.Provider value={trackStore}>
+      <PlaylistStoreContext.Provider value={playlistStore}>
+        <PlayerStoreContext.Provider value={playerStore}>
+          <BrowserRouter>
+              <Box height="100%" className={classes.root}>
+                <Header />
+                <Box display="flex">
+                  <NavMenu />
+                  <Switch>
+                    {Routes}
+                  </Switch>
+                </Box>
+                <BottomPanel />
+              </Box>
+          </BrowserRouter>
+        </PlayerStoreContext.Provider>
+      </PlaylistStoreContext.Provider>
+    </TrackStoreContext.Provider>
   );
 });
 
