@@ -11,13 +11,10 @@ export const useStyles = makeStyles((theme) => (
             marginLeft: "15px",
             color: theme.palette.common.white,
             fontWeight: theme.typography.fontWeightLight,
-            marginBottom: "15px"
-        },
-        playlistTitle: {
-            color: theme.palette.common.white,
-            marginLeft: "15px",
-            cursor: "pointer",
             marginBottom: "10px"
+        },
+        listItem: {
+          color: theme.palette.common.white
         }
     })
 ));
