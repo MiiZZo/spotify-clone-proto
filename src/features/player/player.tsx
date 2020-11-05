@@ -13,13 +13,17 @@ import { formatTime } from "./format-time";
 import { useStyles } from "./player.styles";
 import { PlayerStoreContext } from "./player-store.context";
 import { observer } from "mobx-react-lite";
+import { TrackStoreContext } from "../track/track-store.context";
 
 const Player = observer(() => {
   const playerStore = useContext(PlayerStoreContext)!;
+  const trackStore = useContext(TrackStoreContext)!;
   const classes = useStyles();
 
   const [currentTime, setCurrentTime] = useState(0);
   const [sliderIsDragged, setSliderIsDragged] = useState(false);
+
+  const track = trackStore.findTrackById(playerStore.tracksId[playerStore.currentTrackIndex]);
   
   useEffect(() => {
     playerStore.audio.onended = () => {
@@ -117,8 +121,8 @@ const Player = observer(() => {
           </Box>
         )}
         <Box marginLeft="5px">
-          <Typography className={classes.trackTitle}>{"Title"}</Typography>
-          <Typography className={classes.trackAuthor}>{"Author"}</Typography>
+        <Typography className={classes.trackTitle}>{track.title}</Typography>
+          <Typography className={classes.trackAuthor}>{track.author}</Typography>
         </Box>
       </Box>
       <Box display="flex" flexDirection="column" alignItems="center">

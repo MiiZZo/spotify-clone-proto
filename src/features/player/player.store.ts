@@ -7,6 +7,7 @@ export class PlayerStore {
   currentTrackIndex = 0;
   trackDuration = 0;
   tracksId: TrackDTO["id"][];
+  playlistId: number | null = null;
   isPlaying = false;
   isMuted = false;
   trackVolume = 1;
@@ -29,6 +30,10 @@ export class PlayerStore {
     };
 
     makeAutoObservable(this);
+  }
+
+  setPlaylistId(playlistId: number) {
+    this.playlistId = playlistId;
   }
 
   setTracksId(tracksId: TrackDTO["id"][]) {
