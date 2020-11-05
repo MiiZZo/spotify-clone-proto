@@ -17,6 +17,7 @@ import {
 import { Favorite, DateRange, WatchLater, QueueMusic } from "@material-ui/icons";
 import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
+import { useParams } from "react-router-dom";
 import { PlayerStoreContext } from "../player/player-store.context";
 import { useStyles } from "./playlist-page.styles";
 import { PlaylistStoreContext } from "./playlist-store.context";
@@ -30,16 +31,37 @@ const StyledTableCell = withStyles((theme) =>
     body: {
       fontSize: 14,
       color: theme.palette.common.white,
+      width: 100
     },
   })
 )(TableCell);
 
 const PlaylistPage = observer(() => {
+  let { id } = useParams<{ id: string }>();
+
   const classes = useStyles();
   const playerStore = useContext(PlayerStoreContext)!;
-
   const playlistStore = useContext(PlaylistStoreContext)!;
+  let playlistSelected = false;
 
+  const playlist = playlistStore.playlistsMap[Number(id)];
+
+  if (!playlist) {
+    return <p>error 404</p>;
+  }
+
+  if (playerStore.playlistId === Number(id)) {
+    playlistSelected = true;
+  }
+
+  const hanldeSetCurrentTrack = (index: number) => {
+    if (playerStore.playlistId !== Number(id)) {
+      playerStore.setPlaylistId(Number(id));
+      playerStore.setTracksId(playlist.tracks.map((track) => track.id));
+    }
+    playerStore.setCurrentTrack(index);
+  }
+  
   return (
     <Container maxWidth="lg">
       <Box display="flex" marginRight="auto" marginTop="60px">
@@ -61,7 +83,7 @@ const PlaylistPage = observer(() => {
             Playlist
           </Typography>
           <Typography color="secondary" className={classes.playlistTitle}>
-            My Playlist #1
+            {playlist.title}
           </Typography>
           <Typography color="secondary" className={classes.playlistAuthor}>
             Created by MiiZZo
@@ -94,13 +116,13 @@ const PlaylistPage = observer(() => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {playlistStore.playlists[0].tracks.map(
+            {playlist.tracks.map(
               ({ author, createdAt, duration, id, title }, i) => (
                 <TableRow
-                  onClick={() => playerStore.setCurrentTrack(i)}
+                  onClick={() => hanldeSetCurrentTrack(i)}
                   key={id}
                   className={
-                    playerStore.currentTrackIndex === i
+                    playerStore.currentTrackIndex === i && playlistSelected
                       ? `${classes.currentTrack} ${classes.tableRow}`
                       : classes.tableRow
                   }
